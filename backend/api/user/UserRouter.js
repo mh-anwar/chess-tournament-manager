@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import User from './UserSchema.js';
 import { createLeaderBoardEntry } from '../leaderboard/LeaderboardRouter.js';
+import crypto from 'crypto';
 
 const UserRouter = Router();
 
@@ -12,7 +13,7 @@ UserRouter.get('/:name', async (req, res) => {
   res.send({ success: true, passKey: userPasskey });
 });
 
-UserRouter.post('/login', async (request, res) => {
+UserRouter.post('/login', async (req, res) => {
   const body = req.body;
   let userAuthentication = await authenticateUser(body.name, body.password);
 
@@ -31,12 +32,11 @@ UserRouter.post('/join', async (req, res) => {
   let email = body.email;
   let password = body.password;
   let color = body.color;
-
   const userPasskey = await checkUser(name);
-
   if (email.includes('@ddsbstudent.ca')) {
-    if (userPasskey === false) {
+    if (userPasskey === undefined || userPasskey === false) {
       let passKey = await createUser(name, email, password, color);
+
       res.send({ success: true, passKey: passKey });
     } else {
       res.send({ success: true, passKey: userPasskey });
@@ -56,8 +56,10 @@ async function createUser(name, email, password, color) {
     passKey: passKey,
     color: color,
   });
+
   await newUser.save();
-  createLeaderBoardEntry(1, 1, name, 0);
+  await createLeaderBoardEntry(1, 1, name, 0);
+
   return passKey;
 }
 

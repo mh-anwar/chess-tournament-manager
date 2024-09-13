@@ -97,7 +97,7 @@ async function createLeaderBoardEntry(lost, won, name, rank) {
     won: 1,
     name: name,
     move: 0,
-    rank: Leaderboard.countDocuments({}) + 1,
+    rank: parseInt((await Leaderboard.countDocuments({})) + 1, 10),
   });
 
   await newLeaderBoardEntry.save();
