@@ -15,5 +15,3 @@ Builds the app for production to the `deploy` folder. The output folder can be c
 It correctly bundles React in production mode and optimizes the build for the best performance.<br />
 The build is minified and the filenames include the hashes.
 Your app is ready to be deployed!
-## Note
-The frontend requires an X-API-KEY in the Board.jsx component as well as a HOST. The X-API-KEY can be obtained with your own [Deta Space](https://deta.space), the HOST can be added to constants.js with: `export const HOST = 'http://localhost:4000';`.
