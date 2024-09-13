@@ -8,13 +8,13 @@ export default function Footer() {
       }}
     >
       <Text fontSize="md">
-        Frontend developer{' '}
-        <Link isExternal href="https://github.com/koolkrish18">
-          <u>Krish Nalam</u>
-        </Link>
-        , backend developer{' '}
+        Developed by{' '}
         <Link isExternal href="https://github.com/mh-anwar">
           <u>Mohammad Anwar</u>
+        </Link>{' '}
+        and
+        <Link isExternal href="https://github.com/koolkrish18">
+          <u>Krish Nalam</u>
         </Link>
       </Text>
     </Box>

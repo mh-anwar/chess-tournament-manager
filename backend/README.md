@@ -1,4 +1,4 @@
-# [Wilson Chess Server](https://nanwar.ca)
+# [Chess Server](https://chess.mohammadanwar.dev)
 
 ## Available Scripts
 In this project directory, you can run:

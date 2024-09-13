@@ -1,6 +1,6 @@
 {
-  "short_name": "Wilson Chess",
-  "name": "Wilson Chess Club",
+  "short_name": "Chess Tournament Manager",
+  "name": "Chess Club Tournament Manager",
   "scope": "/",
   "start_url": ".",
   "display": "fullscreen",
