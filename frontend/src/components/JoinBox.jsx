@@ -116,7 +116,7 @@ async function createUser(email, name, password, color, toast) {
       let fullName = name.split(' ');
       if ((/\d/.test(fullName[0]) || /\d/.test(fullName[1])) !== true) {
         if (password.length > 6) {
-          fetch(HOST + '/authjoin', {
+          fetch(HOST + '/api/user/join', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

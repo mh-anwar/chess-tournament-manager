@@ -36,9 +36,9 @@ export default function Challenge({ opponent, rank }) {
     <Box>
       {userName !== '' ? (
         <Button
-          onClick={
+          /*    onClick={
             userName[0] !== opponent[0] ? onOpen : () => userError(toast)
-          }
+          } */
           gap="0.3em"
           variant="outline"
           bg={objectRank ? 'gold' : ''}
@@ -121,18 +121,18 @@ function submitResult(gameResult, gameType, opponent, onClose, toast) {
   const date = new Date();
   let presentTime = date.getTime();
 
-  fetch(HOST + '/gamePlay', {
+  fetch(HOST + '/api/leaderboard/gamePlay', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      opponent: window.btoa(opponent),
-      gameResult: window.btoa(gameResult),
-      gameType: window.btoa(gameType),
+      opponent: opponent,
+      gameResult: gameResult,
+      gameType: gameType,
       gameDate: presentTime,
-      name: window.btoa(localStorage.getItem('name')),
-      passKey: window.btoa(localStorage.getItem('passKey')),
+      name: localStorage.getItem('name'),
+      passKey: localStorage.getItem('passKey'),
     }),
   })
     .then(data => data.json())
@@ -156,14 +156,4 @@ function submitResult(gameResult, gameType, opponent, onClose, toast) {
         });
       }
     });
-}
-
-function userError(toast) {
-  toast({
-    title: 'Uh oh...',
-    description: 'You cannot challenge yourself!',
-    status: 'error',
-    duration: 9000,
-    isClosable: true,
-  });
 }

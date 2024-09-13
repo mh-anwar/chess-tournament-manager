@@ -60,7 +60,7 @@ async function createUser(name, password, toast) {
 
     if ((/\d/.test(fullName[0]) || /\d/.test(fullName[1])) !== true) {
       if (password.length > 6) {
-        fetch(HOST + '/authlogin', {
+        fetch(HOST + '/api/user/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
