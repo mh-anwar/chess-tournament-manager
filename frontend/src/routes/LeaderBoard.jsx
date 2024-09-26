@@ -19,8 +19,13 @@ export default function LeaderBoard() {
   const bg = useColorModeValue('light.sec', 'dark.sec');
   const fg = useColorModeValue('light.fg', 'dark.fg');
   return (
-    <Box>
-      <Tabs isFitted variant="enclosed" align="center">
+    <Box display="flex" flexDir="row" justifyContent="center">
+      <Tabs
+        width={['full', 'full', '80%', '70%']}
+        isFitted
+        variant="enclosed"
+        align="center"
+      >
         <TabList>
           <Tab _selected={{ color: fg, bg: bg }} borderTopRadius="0.8em">
             Leaderboard
@@ -45,7 +50,7 @@ export default function LeaderBoard() {
             </Alert>
             <Board width="100%" />
           </TabPanel>
-          {localStorage.getItem('name') !== null ? (
+          {localStorage.getItem('email') !== null ? (
             <TabPanel>
               <UserGames />
             </TabPanel>
