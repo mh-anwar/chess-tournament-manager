@@ -5,6 +5,7 @@ import {
   useToast,
   Select,
   FormLabel,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import CustomInput from './CustomInput';
 import '../index.css';
@@ -30,15 +31,9 @@ export default function JoinBox() {
   const [colorInput, setColorInput] = React.useState('');
   const toast = useToast();
 
+  const bg = useColorModeValue('light.sec', 'dark.sec');
+  const fg = useColorModeValue('light.fg', 'dark.fg');
   const inputs = [
-    {
-      label: 'Email Address',
-      placeholder: 's20100000@ddsbstudent.ca',
-      helper: 'Use your student email',
-      type: 'email',
-      value: emailInput,
-      onChange: e => setEmailInput(e.target.value),
-    },
     {
       label: 'Name',
       placeholder: 'John Doe',
@@ -47,6 +42,15 @@ export default function JoinBox() {
       value: nameInput,
       onChange: e => setNameInput(e.target.value),
     },
+    {
+      label: 'Email Address',
+      placeholder: 's20100000@ddsbstudent.ca',
+      helper: 'Use your student email',
+      type: 'email',
+      value: emailInput,
+      onChange: e => setEmailInput(e.target.value),
+    },
+
     {
       label: 'Password',
       placeholder: '******',
@@ -62,7 +66,7 @@ export default function JoinBox() {
     event.target.style.color = colours[event.target.value];
   }
   return (
-    <Box className="auth">
+    <Box className="auth" bg={bg} color={fg}>
       {inputs.map(keys => {
         return <CustomInput options={keys} key={keys.label} />;
       })}

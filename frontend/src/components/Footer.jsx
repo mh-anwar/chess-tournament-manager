@@ -12,7 +12,7 @@ export default function Footer() {
         <Link isExternal href="https://github.com/mh-anwar">
           <u>Mohammad Anwar</u>
         </Link>{' '}
-        and
+        and{' '}
         <Link isExternal href="https://github.com/koolkrish18">
           <u>Krish Nalam</u>
         </Link>

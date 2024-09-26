@@ -1,23 +1,31 @@
-import { Box, FormControl, Button, useToast } from '@chakra-ui/react';
+import {
+  Box,
+  FormControl,
+  Button,
+  useToast,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import '../index.css';
 import { useState } from 'react';
 import CustomInput from './CustomInput';
 import { HOST } from './constants';
 
 export default function LoginBox() {
-  const [nameInput, setnameInput] = useState('');
+  const [emailInput, setEmailInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
   const toast = useToast();
 
+  const bg = useColorModeValue('light.sec', 'dark.sec');
+  const fg = useColorModeValue('light.fg', 'dark.fg');
   const inputs = [
     {
-      label: 'Full Name',
-      placeholder: 'Jane Doe',
-      helper: 'Use your full name',
+      label: 'Email',
+      placeholder: 's------@ddsbstudent.ca',
+      helper: 'Use your Email',
       type: 'text',
-      errorMsg: 'name is required',
-      value: nameInput,
-      onChange: e => setnameInput(e.target.value),
+      errorMsg: 'Email is required',
+      value: emailInput,
+      onChange: e => setEmailInput(e.target.value),
     },
     {
       label: 'Password',
@@ -30,12 +38,12 @@ export default function LoginBox() {
     },
   ];
   return (
-    <Box className="auth">
+    <Box className="auth" bg={bg} color={fg}>
       {inputs.map(keys => {
         return <CustomInput options={keys} key={keys.label} />;
       })}
       <FormControl>
-        <Button onClick={() => createUser(nameInput, passwordInput, toast)}>
+        <Button onClick={() => createUser(emailInput, passwordInput, toast)}>
           Submit
         </Button>
       </FormControl>
@@ -43,7 +51,7 @@ export default function LoginBox() {
   );
 }
 
-async function createUser(name, password, toast) {
+async function createUser(email, password, toast) {
   const toastCreator = (title, description, type = 'error') => {
     toast({
       title: title,
@@ -54,48 +62,38 @@ async function createUser(name, password, toast) {
     });
   };
 
-  let nameLength = name.split(' ').length;
-  if (nameLength > 1 && nameLength < 3) {
-    let fullName = name.split(' ');
-
-    if ((/\d/.test(fullName[0]) || /\d/.test(fullName[1])) !== true) {
-      if (password.length > 6) {
-        fetch(HOST + '/api/user/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ name, password }),
-        })
-          .then(data => data.json())
-          .then(response => {
-            if (response.success === true) {
-              localStorage.setItem('name', name);
-              localStorage.setItem('passKey', response.passKey);
-              toastCreator(
-                'Login Successful',
-                'You are being redirected to the homepage',
-                'success'
-              );
-              setTimeout(() => (window.location.href = '/'), 2000);
-            } else {
-              localStorage.removeItem('name');
-              localStorage.removeItem('color');
-              localStorage.removeItem('passKey');
-              toastCreator(response.success, '');
-            }
-          });
-      } else {
-        toastCreator(
-          'Login Unsuccessful',
-          'Your password must be longer than 6 characters'
-        );
-      }
-    } else {
-      toastCreator('Login Unsuccessful', 'There are numbers in your name');
-    }
+  if (password.length > 6) {
+    fetch(HOST + '/api/user/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    })
+      .then(data => data.json())
+      .then(response => {
+        if (response.success === true) {
+          localStorage.setItem('email', email);
+          localStorage.setItem('passKey', response.passKey);
+          toastCreator(
+            'Login Successful',
+            'You are being redirected to the homepage',
+            'success'
+          );
+          setTimeout(() => (window.location.href = '/'), 2000);
+        } else {
+          localStorage.removeItem('email');
+          localStorage.removeItem('color');
+          localStorage.removeItem('passKey');
+          toastCreator(response.success, '');
+        }
+      });
   } else {
-    toastCreator('Login Unsuccessful', 'Please use your first and last name');
+    toastCreator(
+      'Login Unsuccessful',
+      'Your password must be longer than 6 characters'
+    );
   }
+
   return true;
 }
