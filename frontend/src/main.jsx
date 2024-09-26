@@ -1,6 +1,11 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ChakraProvider, ColorModeScript, extendTheme } from '@chakra-ui/react';
+import {
+  Box,
+  ChakraProvider,
+  ColorModeScript,
+  extendTheme,
+} from '@chakra-ui/react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { mode } from '@chakra-ui/theme-tools';
 import Join from './routes/Join';
@@ -9,7 +14,6 @@ import Entry from './routes/Entry';
 import Header from './components/Header/Header';
 import Footer from './components/Footer';
 import Instructions from './routes/Instructions';
-import MobileMenu from './components/Header/MobileMenu';
 import Error from './components/Error';
 import './index.css';
 
@@ -21,7 +25,6 @@ const router = createBrowserRouter([
         <Header />
         <Entry />
         <Footer />
-        <MobileMenu />
       </>
     ),
     errorElement: <Error />,
@@ -29,12 +32,11 @@ const router = createBrowserRouter([
   {
     path: '/board',
     element: (
-      <>
+      <Box display="flex" flexDir="column" justifyContent="space-between">
         <Header />
         <LeaderBoard />
         <Footer />
-        <MobileMenu />
-      </>
+      </Box>
     ),
   },
   {
@@ -44,19 +46,17 @@ const router = createBrowserRouter([
         <Header />
         <Join />
         <Footer />
-        <MobileMenu />
       </>
     ),
   },
   {
     path: '/instructions',
     element: (
-      <>
+      <Box display="flex" flexDir="column" justifyContent="space-between">
         <Header />
         <Instructions />
         <Footer />
-        <MobileMenu />
-      </>
+      </Box>
     ),
   },
 ]);
