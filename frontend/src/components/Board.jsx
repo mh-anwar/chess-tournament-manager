@@ -12,7 +12,7 @@ import {
 import { useEffect, useState } from 'react';
 import { GiRank1, GiRank2, GiRank3 } from 'react-icons/gi';
 import Challenge from './Challenge.jsx';
-import { API_KEY } from './constants.js';
+import { HOST } from './constants.js';
 import '../index.css';
 
 export default function Board({
@@ -20,114 +20,93 @@ export default function Board({
   showWR = true,
   showChallenge = true,
 }) {
+  showWR = true;
   const [leaderBoard, setLeaderBoard] = useState(null);
 
   useEffect(() => {
-    const populateLeaderBoard = data => {
-      let bigRanks = [];
+    const populateLeaderBoard = playersData => {
+      let rankedPlayers = [];
 
-      Object.values(data).forEach(key => {
-        let wins = key['won'] - 1;
-        let lost = key['lost'] - 1;
-        let thisFormula = wins - lost;
+      Object.values(playersData).forEach(player => {
+        const wins = player['won'];
+        const losses = player['lost'];
+        const playerScore = wins - losses;
+        let inserted = false;
 
-        if (bigRanks.length === 0) {
-          bigRanks.push(key);
-        } else {
-          for (let i = 0; i < bigRanks.length; i++) {
-            let otherFormula = bigRanks[i]['won'] - bigRanks[i]['lost'];
-            if (otherFormula > thisFormula) {
-              if (bigRanks[i + 1]) {
-                continue;
-              } else {
-                bigRanks.join();
-                bigRanks.splice(i + 1, 0, key);
-                bigRanks.join();
-                break;
-              }
-            } else if (otherFormula === thisFormula) {
-              let otherPerson = bigRanks[i]['name'][0];
-              let thisPerson = key['name'][0];
-              if (otherPerson.localeCompare(thisPerson) === -1) {
-                bigRanks.join();
-                bigRanks.splice(i + 1, 0, key);
-                bigRanks.join();
-                break;
-              } else {
-                bigRanks.join();
-                bigRanks.splice(i, 0, key);
-                bigRanks.join();
-                break;
-              }
-            } else {
-              bigRanks.join();
-              bigRanks.splice(i, 0, key);
-              bigRanks.join();
-              break;
-            }
+        // Insert player into rankedPlayers array based on score comparison and name sorting
+        for (let i = 0; i < rankedPlayers.length; i++) {
+          const currentRankedPlayerScore =
+            rankedPlayers[i]['won'] - rankedPlayers[i]['lost'];
+
+          // Compare based on score, if equal compare by name alphabetically
+          if (
+            playerScore > currentRankedPlayerScore ||
+            (playerScore === currentRankedPlayerScore &&
+              player['name'].localeCompare(rankedPlayers[i]['name']) < 0)
+          ) {
+            rankedPlayers.splice(i, 0, player);
+            inserted = true;
+            break;
           }
         }
-      }, {});
 
-      let ranks = bigRanks.map(key => {
-        let rank = bigRanks.indexOf(key) + 1;
-        let fullName = key['name'].split(' ');
-        let name = fullName[0];
+        // If player wasn't inserted in loop, add to the end
+        if (!inserted) {
+          rankedPlayers.push(player);
+        }
+      });
+
+      // Icons for top 3 ranks
+      const rankIcons = [GiRank3, GiRank2, GiRank1];
+
+      // Mapping ranked players to table rows
+      const leaderboardRows = rankedPlayers.map((player, index) => {
+        const rank = index + 1;
+        const [firstName, lastName] = player['name'].split(' ');
+        const displayName = firstName;
+
+        // Determine if player is in top 3 and select appropriate rank icon
+        const RankIcon = rank <= 3 ? rankIcons[rank] : null;
+
         return (
           <Tr key={rank}>
             <Td display="flex" flexDir="row" alignItems="center">
-              {showChallenge === true ? (
+              {showChallenge ? (
                 <Challenge
-                  opponent={fullName}
-                  rank={
-                    rank === 3 ? (
-                      <Icon as={GiRank1} />
-                    ) : rank === 2 ? (
-                      <Icon as={GiRank2} />
-                    ) : rank === 1 ? (
-                      <Icon as={GiRank3} />
-                    ) : (
-                      rank
-                    )
-                  }
+                  opponent={[firstName, lastName]}
+                  rank={RankIcon ? <Icon as={RankIcon} /> : rank}
                 />
-              ) : rank === 3 ? (
-                <Icon as={GiRank1} />
-              ) : rank === 2 ? (
-                <Icon as={GiRank2} />
-              ) : rank === 1 ? (
-                <Icon as={GiRank3} />
+              ) : RankIcon ? (
+                <Icon as={RankIcon} />
               ) : (
                 rank
               )}
             </Td>
-            <Td>{showWR ? fullName[0] + ' ' + fullName[1] : name}</Td>
-            {showWR === true && (
+            <Td>{showWR ? `${firstName} ${lastName}` : displayName}</Td>
+            {showWR && (
               <>
-                <Td>{key['won'] - 1}</Td>
-                <Td>{key['lost'] - 1}</Td>
+                <Td>{player['won']}</Td>
+                <Td>{player['lost']}</Td>
               </>
             )}
           </Tr>
         );
       });
-      setLeaderBoard(ranks);
+
+      // Update the leaderboard state
+      setLeaderBoard(leaderboardRows);
     };
 
     const fetchLeaderBoard = async () => {
-      const data = await fetch(
-        'https://database.deta.sh/v1/b0jecxqg/leaderboard/query',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-API-Key': API_KEY,
-          },
-        }
-      ).then(response => {
+      const data = await fetch(HOST + '/api/leaderboard/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).then(response => {
         return response.json();
       });
-      populateLeaderBoard(data.items);
+      populateLeaderBoard(data.data);
     };
     fetchLeaderBoard();
   }, [showWR, showChallenge]);

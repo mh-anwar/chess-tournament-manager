@@ -8,7 +8,7 @@ import {
 import '../index.css';
 import { useState } from 'react';
 import CustomInput from './CustomInput';
-import { HOST } from './constants';
+import { clearLocalStorage, HOST } from './constants';
 
 export default function LoginBox() {
   const [emailInput, setEmailInput] = useState('');
@@ -43,7 +43,9 @@ export default function LoginBox() {
         return <CustomInput options={keys} key={keys.label} />;
       })}
       <FormControl>
-        <Button onClick={() => createUser(emailInput, passwordInput, toast)}>
+        <Button
+          onClick={() => authenticateUser(emailInput, passwordInput, toast)}
+        >
           Submit
         </Button>
       </FormControl>
@@ -51,7 +53,7 @@ export default function LoginBox() {
   );
 }
 
-async function createUser(email, password, toast) {
+async function authenticateUser(email, password, toast) {
   const toastCreator = (title, description, type = 'error') => {
     toast({
       title: title,
@@ -61,39 +63,41 @@ async function createUser(email, password, toast) {
       isClosable: true,
     });
   };
-
-  if (password.length > 6) {
-    fetch(HOST + '/api/user/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    })
-      .then(data => data.json())
-      .then(response => {
-        if (response.success === true) {
-          localStorage.setItem('email', email);
-          localStorage.setItem('passKey', response.passKey);
-          toastCreator(
-            'Login Successful',
-            'You are being redirected to the homepage',
-            'success'
-          );
-          setTimeout(() => (window.location.href = '/'), 2000);
-        } else {
-          localStorage.removeItem('email');
-          localStorage.removeItem('color');
-          localStorage.removeItem('passKey');
-          toastCreator(response.success, '');
-        }
-      });
-  } else {
-    toastCreator(
+  if (password.length <= 6) {
+    return toastCreator(
       'Login Unsuccessful',
       'Your password must be longer than 6 characters'
     );
   }
 
+  try {
+    const response = await fetch(`${HOST}/api/user/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      localStorage.setItem('email', email);
+      localStorage.setItem('name', data.name);
+      localStorage.setItem('passKey', data.passKey);
+      toastCreator(
+        'Login Successful',
+        'You are being redirected to the homepage',
+        'success'
+      );
+      setTimeout(() => (window.location.href = '/'), 2000);
+    } else {
+      clearLocalStorage();
+      toastCreator('Login Failed', data.message || 'Invalid credentials');
+    }
+  } catch (error) {
+    console.error('Login error:', error);
+    toastCreator('Login Error', 'An error occurred during login');
+  }
   return true;
 }

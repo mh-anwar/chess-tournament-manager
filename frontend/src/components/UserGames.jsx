@@ -19,19 +19,18 @@ export default function UserGames() {
   const [userGames, setUserGames] = useState(null);
   const [userStats, setUserStats] = useState(null);
   useEffect(() => {
-    if (
-      localStorage.getItem('name') !== null &&
-      localStorage.getItem('passKey') !== null
-    ) {
+    const name = localStorage.getItem('name');
+    const passKey = localStorage.getItem('passKey');
+    if (name !== null && passKey !== null) {
       const fetchUserGames = async () => {
-        let data = await fetch(HOST + '/userGames', {
+        let data = await fetch(HOST + '/api/leaderboard/userGames', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            name: localStorage.getItem('name'),
-            passKey: localStorage.getItem('passKey'),
+            name: name,
+            passKey: passKey,
           }),
         })
           .then(data => data.json())

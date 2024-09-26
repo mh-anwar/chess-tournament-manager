@@ -23,102 +23,101 @@ import {
 
 export default function HeaderMenu() {
   const [isMobile] = useMediaQuery('(max-width: 768px)');
-  let urlPath = window.location.pathname;
-  const isLoggedIn = localStorage.getItem('email');
+  const urlPath = window.location.pathname;
+  const isLoggedIn = Boolean(localStorage.getItem('email'));
 
   const btnStyle = {
-    paddingLeft: '2rem',
-    paddingRight: '2rem',
-    marginLeft: '0.5rem',
-    marginRight: '0.5rem',
+    padding: '0 2rem',
+    margin: '0 0.5rem',
   };
+
   const NavigationData = [
     {
       name: 'Home',
       link: '/',
-      icon1: <AiFillHome />,
-      icon2: <AiOutlineHome />,
+      iconActive: AiFillHome,
+      iconInactive: AiOutlineHome,
     },
     {
       name: 'Play',
       link: '/board',
-      icon1: <RiTrophyFill />,
-      icon2: <RiTrophyLine />,
+      iconActive: RiTrophyFill,
+      iconInactive: RiTrophyLine,
     },
     {
       name: 'Help',
       link: '/instructions',
-      icon1: <RiFilePaperFill />,
-      icon2: <RiFilePaperLine />,
+      iconActive: RiFilePaperFill,
+      iconInactive: RiFilePaperLine,
     },
   ];
-  return isMobile ? (
-    <Box>
-      {isLoggedIn !== null ? (
-        <UserAvatar mobile={true} />
-      ) : (
-        <>
-          <Link to="/join">
-            <Button w="4em" h="3em" style={btnStyle} variant="outline">
-              Join
-            </Button>
-          </Link>
-        </>
-      )}
-      <Menu>
-        <MenuButton
-          as={IconButton}
-          aria-label="Options"
-          icon={<HamburgerIcon />}
-          variant="outline"
-          w="4em"
-          h="3em"
-          marginLeft="1em"
-        />
-        <MenuList
-          style={{ zIndex: 5000, display: 'flex', flexDirection: 'column' }}
+
+  const getIcon = item =>
+    urlPath === item.link ? item.iconActive : item.iconInactive;
+
+  const renderButtons = () =>
+    NavigationData.map((item, index) => (
+      <Link key={index} to={item.link}>
+        <Button
+          leftIcon={<item.iconActive />}
+          style={btnStyle}
+          variant={urlPath === item.link ? 'solid' : 'outline'}
         >
-          {NavigationData.map((item, index) => {
-            return (
-              <MenuItem
-                icon={urlPath === item.link ? item.icon1 : item.icon2}
-                key={index}
-                as={Link}
-                to={item.link}
-              >
-                {item.name}
-              </MenuItem>
-            );
-          })}
-          <MenuDivider />
-          <ColorModeSwitcher />
-        </MenuList>
-      </Menu>
-    </Box>
-  ) : (
+          {item.name}
+        </Button>
+      </Link>
+    ));
+
+  return (
     <Box
       display="flex"
-      flexDir="row"
-      flexWrap="wrap"
-      marginTop="1rem"
-      gap="0.5rem"
       alignItems="center"
-      justifyContent="center"
+      justifyContent={isMobile ? 'start' : 'center'}
+      flexWrap="wrap"
+      gap="0.5rem"
     >
-      {NavigationData.map((item, index) => {
-        return (
-          <Link key={index} a to={item.link}>
-            <Button
-              style={btnStyle}
-              variant={urlPath === item.link ? 'solid' : 'outline'}
-            >
-              {item.name}
-            </Button>
-          </Link>
-        );
-      })}
-      <ColorModeSwitcher />
-      <UserAvatar />
+      {isMobile ? (
+        <>
+          {isLoggedIn ? (
+            <UserAvatar mobile />
+          ) : (
+            <Link to="/join">
+              <Button w="4em" h="3em" style={btnStyle} variant="outline">
+                Join
+              </Button>
+            </Link>
+          )}
+          <Menu isLazy closeOnBlur>
+            <MenuButton
+              as={IconButton}
+              aria-label="Options"
+              icon={<HamburgerIcon />}
+              variant="outline"
+              size="lg"
+            />
+            <MenuList>
+              {NavigationData.map((item, index) => (
+                <MenuItem
+                  icon={getIcon(item)}
+                  key={index}
+                  as={Link}
+                  to={item.link}
+                >
+                  {item.name}
+                </MenuItem>
+              ))}
+              <MenuDivider />
+              <ColorModeSwitcher />
+            </MenuList>
+          </Menu>
+        </>
+      ) : (
+        <>
+          {renderButtons()}
+          <ColorModeSwitcher />
+          <UserAvatar />
+        </>
+      )}
     </Box>
   );
 }
