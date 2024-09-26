@@ -15,10 +15,10 @@ UserRouter.get('/:name', async (req, res) => {
 
 UserRouter.post('/login', async (req, res) => {
   const body = req.body;
-  let userAuthentication = await authenticateUser(body.name, body.password);
+  const [name, passKey] = await authenticateUser(body.email, body.password);
 
-  if (userAuthentication !== false && userAuthentication !== undefined) {
-    res.send({ success: true, passKey: userAuthentication });
+  if (passKey !== false && passKey !== undefined) {
+    res.send({ success: true, name: name, passKey: userAuthentication });
   } else if (userAuthentication === undefined) {
     res.send({ success: "User doesn't exist" });
   } else {
@@ -63,13 +63,13 @@ async function createUser(name, email, password, color) {
   return passKey;
 }
 
-async function authenticateUser(name, password) {
+async function authenticateUser(email, password) {
   const user = await User.findOne({
-    name: name,
+    email: email,
   });
   if (user) {
     if (user.password === password) {
-      return user.passKey;
+      return [user.name, user.passKey];
     } else {
       return false;
     }
