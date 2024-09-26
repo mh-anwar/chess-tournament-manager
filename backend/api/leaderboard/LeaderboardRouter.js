@@ -6,10 +6,13 @@ import User from '../user/UserSchema.js';
 const LeaderboardRouter = Router();
 
 // /api/leaderboard/
+LeaderboardRouter.post('/', async (req, res) => {
+  res.send({ data: await Leaderboard.find({}) });
+});
 
 LeaderboardRouter.post('/userGames', async (req, res) => {
   const body = req.body;
-  const user = await getUserData(data.name);
+  const user = await getUserData(body.name);
   if (user.passKey === body.passKey) {
     res.send({ data: user.games });
   } else {
