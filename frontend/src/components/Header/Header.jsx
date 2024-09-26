@@ -1,18 +1,16 @@
-import { Box, Image, useColorModeValue, useMediaQuery } from '@chakra-ui/react';
+import { Box, Image, useColorModeValue } from '@chakra-ui/react';
 import { LinkBox, LinkOverlay } from '@chakra-ui/react';
 import HeaderLogo from './header.svg';
-import DesktopMenu from './DesktopMenu';
 import { Link } from 'react-router-dom';
+import HeaderMenu from './HeaderMenu';
 
 export default function Header() {
   const bg = useColorModeValue('light.header', 'dark.header');
-  const [isDesktop] = useMediaQuery('(min-width: 600px)');
   const mainStyle = { base: '2rem', sm: '3rem', md: '5rem', lg: '5rem' };
-
   return (
     <Box
       display="flex"
-      flexDir={{ base: 'column', sm: 'column', md: 'row', lg: 'row' }}
+      flexDir="row"
       alignItems="center"
       justifyContent="space-between"
       paddingLeft={mainStyle}
@@ -28,11 +26,11 @@ export default function Header() {
             src={HeaderLogo}
             filter={bg === 'light.header' ? '' : 'invert()'}
             minHeight="5vh"
-            maxHeight="8vh"
+            maxHeight={['6vh', '6vh', '6vh', '8vh']}
           />
         </LinkOverlay>
       </LinkBox>
-      {isDesktop && <DesktopMenu />}
+      <HeaderMenu />
     </Box>
   );
 }

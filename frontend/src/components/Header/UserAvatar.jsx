@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
-export default function UserAvatar({ mobile = false }) {
+export default function UserAvatar() {
   let userName = localStorage.getItem('name');
   let passKey = localStorage.getItem('passKey');
   const { toggleColorMode } = useColorMode();
