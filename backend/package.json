@@ -2,6 +2,10 @@
   "name": "tms-backend",
   "module": "index.js",
   "type": "module",
+  "scripts": {
+    "start": "bun index.js",
+    "dev": "bun --hot index.js"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
