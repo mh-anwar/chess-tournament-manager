@@ -2,7 +2,6 @@
   "name": "chess-tournament-manager",
   "version": "1.2.0",
   "description": "This is a tournament leaderboard, it lets students sign up for an account, login, report results and see statistics on their games.",
-  "main": "index.js",
   "scripts": {
     "start": "cd backend && bun index.js & cd frontend && npm run dev & echo \"Backend and frontend started, go to http://localhost:5173\""
   },
