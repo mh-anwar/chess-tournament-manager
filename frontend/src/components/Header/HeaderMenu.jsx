@@ -20,7 +20,6 @@ export default function HeaderMenu() {
   const [isMobile] = useMediaQuery('(max-width: 768px)');
   const urlPath = window.location.pathname;
   const isLoggedIn = Boolean(localStorage.getItem('email'));
-  console.log(isLoggedIn);
 
   const btnStyle = {
     padding: '0 2rem',
@@ -48,8 +47,12 @@ export default function HeaderMenu() {
     },
   ];
 
-  const getIcon = item =>
-    urlPath === item.link ? item.iconActive : item.iconInactive;
+  const getIcon = item => {
+    const icon =
+      urlPath === item.link ? <item.iconActive /> : <item.iconInactive />;
+
+    return icon;
+  };
 
   const renderButtons = () =>
     NavigationData.map((item, index) => (
@@ -83,7 +86,15 @@ export default function HeaderMenu() {
               variant="outline"
               size="lg"
             />
-            <MenuList>
+            <MenuList
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '0.5rem',
+                zIndex: 1000,
+              }}
+            >
               {NavigationData.map((item, index) => (
                 <MenuItem
                   icon={getIcon(item)}
