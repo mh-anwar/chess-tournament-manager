@@ -14,12 +14,13 @@ UserRouter.get('/:name', async (req, res) => {
 });
 
 UserRouter.post('/login', async (req, res) => {
+  console.log(req.body);
   const body = req.body;
   const [name, passKey] = await authenticateUser(body.email, body.password);
 
-  if (passKey !== false && passKey !== undefined) {
-    res.send({ success: true, name: name, passKey: userAuthentication });
-  } else if (userAuthentication === undefined) {
+  if (passKey !== false && passKey !== false) {
+    res.send({ success: true, name: name, passKey: passKey });
+  } else if (passKey === undefined) {
     res.send({ success: "User doesn't exist" });
   } else {
     res.send({ success: 'Incorrect password' });
@@ -71,10 +72,10 @@ async function authenticateUser(email, password) {
     if (user.password === password) {
       return [user.name, user.passKey];
     } else {
-      return false;
+      return [false, false];
     }
   } else {
-    return undefined;
+    return [false, false];
   }
 }
 
