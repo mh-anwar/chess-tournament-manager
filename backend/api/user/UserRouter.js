@@ -14,7 +14,6 @@ UserRouter.get('/:name', async (req, res) => {
 });
 
 UserRouter.post('/login', async (req, res) => {
-  console.log(req.body);
   const body = req.body;
   const [name, passKey] = await authenticateUser(body.email, body.password);
 

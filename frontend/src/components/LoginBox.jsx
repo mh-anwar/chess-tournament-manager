@@ -98,8 +98,10 @@ async function authenticateUser(email, password, toast) {
       toastCreator('Login Failed', data.message || 'Invalid credentials');
     }
   } catch (error) {
-    console.error('Login error:', error);
-    toastCreator('Login Error', 'An error occurred during login');
+    toastCreator(
+      'Login Error: ' + String(error),
+      'An error occurred during login'
+    );
   }
   return true;
 }
