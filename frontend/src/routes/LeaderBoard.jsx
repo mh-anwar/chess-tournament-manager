@@ -7,8 +7,6 @@ import {
   Heading,
   Box,
   Highlight,
-  Alert,
-  AlertIcon,
   useColorModeValue,
 } from '@chakra-ui/react';
 import UserGames from '../components/UserGames';
@@ -19,8 +17,13 @@ export default function LeaderBoard() {
   const bg = useColorModeValue('light.sec', 'dark.sec');
   const fg = useColorModeValue('light.fg', 'dark.fg');
   return (
-    <Box>
-      <Tabs isFitted variant="enclosed" align="center">
+    <Box display="flex" flexDir="row" justifyContent="center">
+      <Tabs
+        width={['full', 'full', '80%', '70%']}
+        isFitted
+        variant="enclosed"
+        align="center"
+      >
         <TabList>
           <Tab _selected={{ color: fg, bg: bg }} borderTopRadius="0.8em">
             Leaderboard
@@ -32,20 +35,9 @@ export default function LeaderBoard() {
 
         <TabPanels minHeight="60vh">
           <TabPanel sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Alert
-              rounded="full"
-              marginBottom="0.5em"
-              display="flex"
-              flexDir={{ base: 'column', sm: 'column', md: 'row' }}
-              gap={{ base: '0', sm: '0', md: '0.5em' }}
-              colorScheme="blue"
-            >
-              <AlertIcon />
-              If your result is not present let us know.
-            </Alert>
             <Board width="100%" />
           </TabPanel>
-          {localStorage.getItem('name') !== null ? (
+          {localStorage.getItem('email') !== null ? (
             <TabPanel>
               <UserGames />
             </TabPanel>

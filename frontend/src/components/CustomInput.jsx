@@ -38,7 +38,7 @@ export default function CustomInput({ options }) {
           variant="outline"
           type="email"
           placeholder={options.placeholder}
-          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+          pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
           value={options.value}
           onChange={e => {
             options.onChange(e);

@@ -18,7 +18,6 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import { RiSwordLine } from 'react-icons/ri';
-import { HOST } from './constants';
 
 export default function Challenge({ opponent, rank }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -121,7 +120,7 @@ function submitResult(gameResult, gameType, opponent, onClose, toast) {
   const date = new Date();
   let presentTime = date.getTime();
 
-  fetch(HOST + '/api/leaderboard/gamePlay', {
+  fetch(import.meta.env.VITE_HOST + '/api/leaderboard/gamePlay', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

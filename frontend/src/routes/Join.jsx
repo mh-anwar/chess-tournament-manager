@@ -1,11 +1,11 @@
-import { Box, useToast } from '@chakra-ui/react';
+import { Box, useColorModeValue, useToast } from '@chakra-ui/react';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
-import React from 'react';
-import { HOST } from '../components/constants';
 import JoinBox from '../components/JoinBox';
 import LoginBox from '../components/LoginBox';
 
 export default function Join() {
+  const bg = useColorModeValue('light.sec', 'dark.sec');
+  const fg = useColorModeValue('light.fg', 'dark.fg');
   const toast = useToast();
   const toastCreator = (title, description, type = 'error') => {
     toast({
@@ -23,7 +23,7 @@ export default function Join() {
   window.handleCredentialResponse = data => {
     localStorage.removeItem('name');
     localStorage.removeItem('passKey');
-    fetch(HOST + '/googleauth', {
+    fetch(import.meta.env.VITE_HOST + '/googleauth', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ export default function Join() {
         } else if (response.success === 'password required') {
           const password = window.prompt('Please create a password', '');
           if (password != null) {
-            fetch(HOST + '/googleauth', {
+            fetch(import.meta.env.VITE_HOST + '/googleauth', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -74,24 +74,20 @@ export default function Join() {
   };
 
   return (
-    <Box>
+    <Box display="flex" flexDir="row" justifyContent="center">
       <Tabs
         isLazy
-        variant="solid-rounded"
         colorScheme="blue"
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-          padding: '1em',
-        }}
+        width={['full', 'full', '60%', '50%']}
+        isFitted
+        variant="enclosed"
         align="center"
         minHeight="80vh"
         maxHeight="90vh"
       >
         <TabList paddingTop="2em">
-          <Tab>Log In</Tab>
-          <Tab>Sign Up</Tab>
+          <Tab _selected={{ color: fg, bg: bg }}>Log In</Tab>
+          <Tab _selected={{ color: fg, bg: bg }}>Sign Up</Tab>
         </TabList>
 
         <TabPanels align="center">

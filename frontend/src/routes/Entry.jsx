@@ -1,11 +1,15 @@
-import { Box, Button, Heading, useMediaQuery } from '@chakra-ui/react';
+import { Box, Heading, useMediaQuery } from '@chakra-ui/react';
 import Board from '../components/Board';
-import React from 'react';
-import { Link } from 'react-router-dom';
 
 export default function Entry() {
   const [isDesktop] = useMediaQuery('(min-width: 1000px)');
-  const mainStyle = { base: '2rem', sm: '3rem', md: '5rem', lg: '5rem' };
+  const mainStyle = {
+    base: '2rem',
+    sm: '3rem',
+    md: '4rem',
+    lg: '4rem',
+    xl: '6rem',
+  };
   return (
     <Box
       display="flex"
@@ -23,6 +27,7 @@ export default function Entry() {
           lg: 'flex-start',
         }}
         flex="60"
+        gap="2em"
       >
         <Heading as="h1" size="4xl" textAlign={{ base: 'center', sm: 'left' }}>
           Play.
@@ -33,17 +38,11 @@ export default function Entry() {
         <Heading as="h1" size="4xl" textAlign={{ base: 'center', sm: 'left' }}>
           Compete.
         </Heading>
-        <Link to="/join">
-          <Button marginTop="1rem" alignSelf={{ base: 'center', sm: 'left' }}>
-            Join
-          </Button>
-        </Link>
       </Box>
 
       <Board
         flex="40"
         width={isDesktop ? '50%' : '100%'}
-        showWR={isDesktop}
         showChallenge="false"
       />
     </Box>

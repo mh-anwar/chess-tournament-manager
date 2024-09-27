@@ -1,4 +1,3 @@
-import React from 'react';
 import { useColorMode, useColorModeValue, IconButton } from '@chakra-ui/react';
 import { FaRegMoon, FaRegSun } from 'react-icons/fa';
 

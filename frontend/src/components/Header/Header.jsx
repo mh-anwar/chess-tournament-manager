@@ -1,19 +1,15 @@
-import { Box, Image, useColorModeValue, useMediaQuery } from '@chakra-ui/react';
+import { Box, Image, Text } from '@chakra-ui/react';
 import { LinkBox, LinkOverlay } from '@chakra-ui/react';
-import HeaderLogo from './header.svg';
-import DesktopMenu from './DesktopMenu';
+import King from './main.png';
 import { Link } from 'react-router-dom';
+import HeaderMenu from './HeaderMenu';
 
 export default function Header() {
-  const bg = useColorModeValue('light.header', 'dark.header');
-  const [isDesktop] = useMediaQuery('(min-width: 600px)');
   const mainStyle = { base: '2rem', sm: '3rem', md: '5rem', lg: '5rem' };
-
   return (
     <Box
       display="flex"
-      flexDir={{ base: 'column', sm: 'column', md: 'row', lg: 'row' }}
-      alignItems="center"
+      flexDir="row"
       justifyContent="space-between"
       paddingLeft={mainStyle}
       paddingRight={mainStyle}
@@ -21,18 +17,51 @@ export default function Header() {
       minHeight="5vh"
     >
       <LinkBox as="h1">
-        <LinkOverlay as={Link} to="/">
+        <LinkOverlay
+          as={Link}
+          to="/"
+          style={{
+            flexDirection: 'row',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
           <Image
+            rel="preload"
+            loading="eager"
+            src={King}
+            maxHeight={['7vh', '6vh', '6vh', '9vh']}
+          />
+
+          <Text
+            className="formalfont"
+            fontSize="4xl"
+            fontWeight="bold"
+            lineHeight="1" // Adjust line height to reduce space
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0',
+              alignSelf: 'end',
+              alignItems: 'center',
+            }}
+          >
+            <span>Wilson</span>
+            <span>Chess</span>
+          </Text>
+
+          {/*   <Image
             rel="preload"
             loading="eager"
             src={HeaderLogo}
             filter={bg === 'light.header' ? '' : 'invert()'}
             minHeight="5vh"
-            maxHeight="8vh"
-          />
+            maxHeight={['6vh', '6vh', '6vh', '8vh']}
+          /> */}
         </LinkOverlay>
       </LinkBox>
-      {isDesktop && <DesktopMenu />}
+      <HeaderMenu />
     </Box>
   );
 }

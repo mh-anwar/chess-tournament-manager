@@ -12,28 +12,29 @@ import {
   Heading,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { HOST } from './constants.js';
 import '../index.css';
 
 export default function UserGames() {
   const [userGames, setUserGames] = useState(null);
   const [userStats, setUserStats] = useState(null);
   useEffect(() => {
-    if (
-      localStorage.getItem('name') !== null &&
-      localStorage.getItem('passKey') !== null
-    ) {
+    const name = localStorage.getItem('name');
+    const passKey = localStorage.getItem('passKey');
+    if (name !== null && passKey !== null) {
       const fetchUserGames = async () => {
-        let data = await fetch(HOST + '/userGames', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name: localStorage.getItem('name'),
-            passKey: localStorage.getItem('passKey'),
-          }),
-        })
+        let data = await fetch(
+          import.meta.env.VITE_HOST + '/api/leaderboard/userGames',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              name: name,
+              passKey: passKey,
+            }),
+          }
+        )
           .then(data => data.json())
           .then(response => {
             return response.data;

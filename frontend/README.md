@@ -1,4 +1,4 @@
-# [Wilson Chess Frontend](https://nanwar.ca)
+# [Chess Frontend](https://chess.mohammadanwar.dev)
 
 ## Available Scripts
 In this project directory, you can run:

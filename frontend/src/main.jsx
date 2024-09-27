@@ -1,62 +1,73 @@
-import { ChakraProvider, ColorModeScript, extendTheme } from '@chakra-ui/react';
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import {
+  Box,
+  ChakraProvider,
+  ColorModeScript,
+  extendTheme,
+} from '@chakra-ui/react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { mode } from '@chakra-ui/theme-tools';
-import * as serviceWorker from './serviceWorker';
 import Join from './routes/Join';
 import LeaderBoard from './routes/LeaderBoard';
 import Entry from './routes/Entry';
 import Header from './components/Header/Header';
 import Footer from './components/Footer';
-import Instructions from './routes/Instructions';
-import MobileMenu from './components/Header/MobileMenu';
 import Error from './components/Error';
+import '@fontsource/rosarivo';
 import './index.css';
+
 const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          minHeight: '100vh',
+        }}
+      >
         <Header />
         <Entry />
         <Footer />
-        <MobileMenu />
-      </>
+      </Box>
     ),
     errorElement: <Error />,
   },
   {
     path: '/board',
     element: (
-      <>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          minHeight: '100vh',
+        }}
+      >
         <Header />
         <LeaderBoard />
         <Footer />
-        <MobileMenu />
-      </>
+      </Box>
     ),
   },
   {
     path: '/join',
     element: (
-      <>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          minHeight: '100vh',
+        }}
+      >
         <Header />
         <Join />
         <Footer />
-        <MobileMenu />
-      </>
-    ),
-  },
-  {
-    path: '/instructions',
-    element: (
-      <>
-        <Header />
-        <Instructions />
-        <Footer />
-        <MobileMenu />
-      </>
+      </Box>
     ),
   },
 ]);
@@ -88,15 +99,12 @@ const theme = extendTheme({
     }),
   },
 });
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
     <ColorModeScript />
     <ChakraProvider theme={theme}>
       <RouterProvider router={router} />
     </ChakraProvider>
-  </React.StrictMode>
+  </StrictMode>
 );
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://cra.link/PWA
-serviceWorker.unregister();
