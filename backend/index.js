@@ -1,4 +1,3 @@
-console.log('Hello via Bun!');
 import mongoose from 'mongoose';
 import express from 'express';
 import cors from 'cors';
@@ -21,7 +20,6 @@ app.use(cors());
 app.use(express.static(path.resolve(__dirname, './dist')));
 
 const spinUpServer = async () => {
-  console.log(process.env.MONGO_DB);
   try {
     await mongoose.connect(process.env.MONGO_DB);
 
@@ -33,7 +31,7 @@ const spinUpServer = async () => {
     });
     // Start the server after DB connection
     app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
+      console.log(`Server running on port http://localhost:${PORT}`);
     });
   } catch (error) {
     console.error('Error connecting to MongoDB:', error);
