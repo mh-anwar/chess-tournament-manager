@@ -1,18 +1,10 @@
-import {
-  Box,
-  Flex,
-  Image,
-  Text,
-  useColorModeValue,
-  VStack,
-} from '@chakra-ui/react';
+import { Box, Image, Text } from '@chakra-ui/react';
 import { LinkBox, LinkOverlay } from '@chakra-ui/react';
 import King from './main.png';
 import { Link } from 'react-router-dom';
 import HeaderMenu from './HeaderMenu';
 
 export default function Header() {
-  const bg = useColorModeValue('light.header', 'dark.header');
   const mainStyle = { base: '2rem', sm: '3rem', md: '5rem', lg: '5rem' };
   return (
     <Box
