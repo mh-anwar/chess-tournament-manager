@@ -7,8 +7,6 @@ import {
   Heading,
   Box,
   Highlight,
-  Alert,
-  AlertIcon,
   useColorModeValue,
 } from '@chakra-ui/react';
 import UserGames from '../components/UserGames';
@@ -37,17 +35,6 @@ export default function LeaderBoard() {
 
         <TabPanels minHeight="60vh">
           <TabPanel sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Alert
-              rounded="full"
-              marginBottom="0.5em"
-              display="flex"
-              flexDir={{ base: 'column', sm: 'column', md: 'row' }}
-              gap={{ base: '0', sm: '0', md: '0.5em' }}
-              colorScheme="blue"
-            >
-              <AlertIcon />
-              If your result is not present let us know.
-            </Alert>
             <Board width="100%" />
           </TabPanel>
           {localStorage.getItem('email') !== null ? (

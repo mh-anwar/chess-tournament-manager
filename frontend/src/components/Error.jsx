@@ -15,19 +15,17 @@ export default function Error() {
         gap: '2em',
       }}
     >
-      <Heading>Whoopsie daisy! Seems like there's an error!</Heading>
+      <Heading>Whoopsie daisy! Seems like there&apos;s an error!</Heading>
       <Text fontSize="lg">
-        If you were expecting a page, report this error!
+        If you were expecting a page, report this errohr!
       </Text>
       <Link to="/">
         <Button> Go to the Homepage</Button>
       </Link>
-      <AspectRatio width="400px" height="560px" ratio={1}>
+      <AspectRatio width="400px" height="560px" ratio={10 / 11}>
         <iframe
-          title="Daily Chess Puzzle"
-          src="https://www.chess.com/daily_puzzle"
-          allowtransparency="true"
-          frameborder="0"
+          src="https://lichess.org/training/frame?theme=brown&bg=dark"
+          draggable="false"
         ></iframe>
       </AspectRatio>
     </Box>

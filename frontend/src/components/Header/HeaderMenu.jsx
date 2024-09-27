@@ -14,17 +14,13 @@ import { Link } from 'react-router-dom';
 import ColorModeSwitcher from './ColorModeSwitcher';
 import UserAvatar from './UserAvatar';
 import { AiFillHome, AiOutlineHome } from 'react-icons/ai';
-import {
-  RiFilePaperFill,
-  RiFilePaperLine,
-  RiTrophyFill,
-  RiTrophyLine,
-} from 'react-icons/ri';
-
+import { RiTrophyFill, RiTrophyLine } from 'react-icons/ri';
+import { BiLogInCircle, BiSolidLogInCircle } from 'react-icons/bi';
 export default function HeaderMenu() {
   const [isMobile] = useMediaQuery('(max-width: 768px)');
   const urlPath = window.location.pathname;
   const isLoggedIn = Boolean(localStorage.getItem('email'));
+  console.log(isLoggedIn);
 
   const btnStyle = {
     padding: '0 2rem',
@@ -44,11 +40,11 @@ export default function HeaderMenu() {
       iconActive: RiTrophyFill,
       iconInactive: RiTrophyLine,
     },
-    {
-      name: 'Help',
-      link: '/instructions',
-      iconActive: RiFilePaperFill,
-      iconInactive: RiFilePaperLine,
+    !isLoggedIn && {
+      name: 'Join',
+      link: '/join',
+      iconActive: BiSolidLogInCircle,
+      iconInactive: BiLogInCircle,
     },
   ];
 
@@ -78,15 +74,7 @@ export default function HeaderMenu() {
     >
       {isMobile ? (
         <>
-          {isLoggedIn ? (
-            <UserAvatar mobile />
-          ) : (
-            <Link to="/join">
-              <Button w="4em" h="3em" style={btnStyle} variant="outline">
-                Join
-              </Button>
-            </Link>
-          )}
+          {isLoggedIn && <UserAvatar mobile />}
           <Menu isLazy closeOnBlur>
             <MenuButton
               as={IconButton}
@@ -114,8 +102,8 @@ export default function HeaderMenu() {
       ) : (
         <>
           {renderButtons()}
+          {isLoggedIn && <UserAvatar mobile />}
           <ColorModeSwitcher />
-          <UserAvatar />
         </>
       )}
     </Box>

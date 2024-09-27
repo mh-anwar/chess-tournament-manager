@@ -1,6 +1,5 @@
 import { Box, useColorModeValue, useToast } from '@chakra-ui/react';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
-import { HOST } from '../components/constants';
 import JoinBox from '../components/JoinBox';
 import LoginBox from '../components/LoginBox';
 
@@ -24,7 +23,7 @@ export default function Join() {
   window.handleCredentialResponse = data => {
     localStorage.removeItem('name');
     localStorage.removeItem('passKey');
-    fetch(HOST + '/googleauth', {
+    fetch(import.meta.env.VITE_HOST + '/googleauth', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -44,7 +43,7 @@ export default function Join() {
         } else if (response.success === 'password required') {
           const password = window.prompt('Please create a password', '');
           if (password != null) {
-            fetch(HOST + '/googleauth', {
+            fetch(import.meta.env.VITE_HOST + '/googleauth', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

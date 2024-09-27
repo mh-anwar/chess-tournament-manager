@@ -13,26 +13,40 @@ import LeaderBoard from './routes/LeaderBoard';
 import Entry from './routes/Entry';
 import Header from './components/Header/Header';
 import Footer from './components/Footer';
-import Instructions from './routes/Instructions';
 import Error from './components/Error';
+import '@fontsource/rosarivo';
 import './index.css';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          minHeight: '100vh',
+        }}
+      >
         <Header />
         <Entry />
         <Footer />
-      </>
+      </Box>
     ),
     errorElement: <Error />,
   },
   {
     path: '/board',
     element: (
-      <Box display="flex" flexDir="column" justifyContent="space-between">
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          minHeight: '100vh',
+        }}
+      >
         <Header />
         <LeaderBoard />
         <Footer />
@@ -42,19 +56,16 @@ const router = createBrowserRouter([
   {
     path: '/join',
     element: (
-      <>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          minHeight: '100vh',
+        }}
+      >
         <Header />
         <Join />
-        <Footer />
-      </>
-    ),
-  },
-  {
-    path: '/instructions',
-    element: (
-      <Box display="flex" flexDir="column" justifyContent="space-between">
-        <Header />
-        <Instructions />
         <Footer />
       </Box>
     ),

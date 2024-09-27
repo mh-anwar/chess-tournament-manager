@@ -12,7 +12,6 @@ import {
 import { useEffect, useState } from 'react';
 import { GiRank1, GiRank2, GiRank3 } from 'react-icons/gi';
 import Challenge from './Challenge.jsx';
-import { HOST } from './constants.js';
 import '../index.css';
 
 export default function Board({
@@ -61,7 +60,7 @@ export default function Board({
 
       // Mapping ranked players to table rows
       const leaderboardRows = rankedPlayers.map((player, index) => {
-        const rank = index + 1;
+        const rank = index;
         const [firstName, lastName] = player['name'].split(' ');
         const displayName = firstName;
 
@@ -98,12 +97,15 @@ export default function Board({
     };
 
     const fetchLeaderBoard = async () => {
-      const data = await fetch(HOST + '/api/leaderboard/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }).then(response => {
+      const data = await fetch(
+        import.meta.env.VITE_HOST + '/api/leaderboard/',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      ).then(response => {
         return response.json();
       });
       populateLeaderBoard(data.data);
@@ -127,8 +129,8 @@ export default function Board({
         className="tableContainer"
         size={{ base: 'sm', sm: 'md', md: 'lg', lg: 'lg' }}
       >
-        <Thead className="blur" bg={bg} zIndex="100" minHeight="10vh">
-          <Tr bg={bg} minHeight="10vh" position="sticky" zIndex="100">
+        <Thead className="blur" minHeight="10vh">
+          <Tr bg={bg} minHeight="10vh">
             <Th maxWidth="10%" minHeight="10vh">
               Rank
             </Th>

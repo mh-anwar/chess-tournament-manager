@@ -8,13 +8,12 @@ import {
 import '../index.css';
 import { useState } from 'react';
 import CustomInput from './CustomInput';
-import { clearLocalStorage, HOST } from './constants';
+import { clearLocalStorage } from './constants';
 
 export default function LoginBox() {
   const [emailInput, setEmailInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
   const toast = useToast();
-
   const bg = useColorModeValue('light.sec', 'dark.sec');
   const fg = useColorModeValue('light.fg', 'dark.fg');
   const inputs = [
@@ -71,13 +70,16 @@ async function authenticateUser(email, password, toast) {
   }
 
   try {
-    const response = await fetch(`${HOST}/api/user/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    });
+    const response = await fetch(
+      `${import.meta.env.VITE_HOST}/api/user/login`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      }
+    );
 
     const data = await response.json();
 

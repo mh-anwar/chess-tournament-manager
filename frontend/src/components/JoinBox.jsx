@@ -10,7 +10,6 @@ import {
 import CustomInput from './CustomInput';
 import '../index.css';
 import React, { useState } from 'react';
-import { HOST } from './constants';
 const colours = {
   yellow: 'black',
   orange: 'black',
@@ -120,7 +119,7 @@ async function createUser(email, name, password, color, toast) {
       let fullName = name.split(' ');
       if ((/\d/.test(fullName[0]) || /\d/.test(fullName[1])) !== true) {
         if (password.length > 6) {
-          fetch(HOST + '/api/user/join', {
+          fetch(import.meta.env.VITE_HOST + '/api/user/join', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

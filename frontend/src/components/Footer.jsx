@@ -5,6 +5,10 @@ export default function Footer() {
     <Box
       sx={{
         textAlign: 'center',
+        position: 'relative',
+        bottom: '0',
+        width: '100%',
+        marginBottom: '1rem',
       }}
     >
       <Text fontSize="md">
